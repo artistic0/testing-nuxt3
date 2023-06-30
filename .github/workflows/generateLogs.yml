@@ -1,0 +1,40 @@
+name: Generate Changelog and Create Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get current version
+        id: version
+        run: |
+          echo "::set-output name=version::$(node -p "require('./package.json').version")"
+
+      - name: Generate Changelog
+        run: npx conventional-changelog-cli -p angular -i CHANGELOG.md -s -r 0
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release ${{ steps.version.outputs.version }}
+          body: |
+            Changelog for Release ${{ steps.version.outputs.version }}:
+            $(cat CHANGELOG.md)
+          draft: false
+          prerelease: false

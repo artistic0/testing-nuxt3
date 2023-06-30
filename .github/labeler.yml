@@ -1,0 +1,25 @@
+# Add 'repo' label to any root file changes
+repo:
+- '*'
+
+#Add 'package' label to package.json file changes
+packages:
+- 'fa_nuxtjs_sfa_dashboard/package.json'
+
+#Add 'nuxt config' label to nuxt.config.ts file changes
+'nuxt config':
+- 'fa_nuxtjs_sfa_dashboard/nuxt.config.ts'
+
+#Add 'nuxt config' label to nuxt.config.ts file changes
+store:
+- 'fa_nuxtjs_sfa_dashboard/store/*.js'
+
+utils:
+- 'fa_nuxtjs_sfa_dashboard/utils/*.ts'
+
+mixins:
+- 'fa_nuxtjs_sfa_dashboard/mixins/**/*.ts'
+
+#Add 'component' label to any change within the component folder except for READEME.md file
+component:
+- any: ['fa_nuxtjs_sfa_dashboard/components/**/*', '!fa_nuxtjs_sfa_dashboard/components/README.md']
